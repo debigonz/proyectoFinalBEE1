@@ -1,13 +1,15 @@
 spring:
   application:
     name: configuration-service
-  profiles:
-    active: native
+  #profiles:
+  #  active: native
   cloud:
     config:
       server:
-        native:
-          search-locations: classpath:/config
+        git:
+          uri: https://github.com/debigonz/configuration-repositoryBEE1
+        #native:
+        #  search-locations: classpath:/config
 
 
 
