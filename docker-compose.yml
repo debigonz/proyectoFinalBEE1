@@ -1,0 +1,85 @@
+version: '2.1'
+
+services:
+  configuration-service:
+    build: 
+      context: ../configuration-service
+    mem_limit: 512m
+    ports:
+      - "8888:8888"
+
+  service-registry:
+    build: 
+      context: ../service-registry
+    mem_limit: 512m
+    ports:
+      - "8761:8761"
+
+  movie-service:
+    build: 
+      context: ../movie-service
+    mem_limit: 512m
+    ports:
+      - "8081:8081"
+
+  serie-service:
+    build: 
+      context: ../serie-service
+    mem_limit: 512m
+    ports:
+      - "8084:8084"
+    depends_on:
+      monodb:
+        condition: service_healthy
+
+  catalog-service:
+    build: 
+      context: ../catalog-service
+    mem_limit: 512m
+    ports:
+      - "8082:8082"
+    depends_on:
+      monodb:
+        condition: service_healthy
+        
+  gateway-service:
+    build: 
+      context: ../gateway-service
+    mem_limit: 512m
+    ports:
+      - "8080:8080"
+
+  mongodb_contenedor:
+    image: mongo:4.4.2
+    ports:
+      - 27017:27017
+    restart: always
+    environment:
+      - MONGO_INITDB_DATABASE=finalProjectBEE1
+      - MONGO_INITDB_ROOT_PASSWORD=password
+      - MONGO_INITDB_PORT_NUMBER="27017"
+    volumes:
+      - ./db-init/initialize-finalProjectBEE1.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - finalProjectBEE1:/bitnami/mongodb
+     
+  db-mysql-movie:
+    image: mysql:5.7
+    container_name: movie-db
+    ports:
+      - "3306:3306"
+    restart: always
+    environment:
+      MYSQL_DATABASE: movie_database
+      MYSQL_ROOT_PASSWORD: root
+
+  zipkin:
+    container_name: infra-zipkin
+    image: openzipkin/zipkin:2
+    ports:
+      - 9411:9411
+  rabbitmq:
+    container_name: infra-rabbitmq
+    image: rabbitmq:3-management
+    ports:
+      - 5672:5672
+      - 15672:15672    
