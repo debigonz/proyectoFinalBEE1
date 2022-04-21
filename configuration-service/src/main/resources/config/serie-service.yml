@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: serie-service
+  mvc:
+    log-request-details: true   
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/finalProjectBEE1
+  rabbitmq:
+    username: guest
+    password: guest
+    host: localhost
+    port: 5672      
+
+queue:
+  serie:
+    name: SerieQueue
+
+message: A new serie was added to the list 
+
+server:
+  port: 8084
+
+eureka:
+  client:
+    fetchRegistry: false
+    registerWithEureka: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    preferIpAddress: true
+
+logging:
+  level:
+    org.springframework.security: DEBUG

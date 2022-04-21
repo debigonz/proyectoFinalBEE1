@@ -1,0 +1,15 @@
+package com.dh.catalogservice.domain.model.dto;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
+
+import java.util.List;
+
+@Data
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class SeasonWS {
+
+    private Integer id;
+    private Integer seasonNumber;
+    private List<ChapterWS> chapters;
+}

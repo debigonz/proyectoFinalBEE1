@@ -1,0 +1,45 @@
+spring:
+  application:
+    name: movie-service
+  mvc:
+    log-request-details: true   
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/movie_database
+    username: root
+    password: root
+  sql:
+    init:
+      mode: always
+      dataLocations: classpath:/movie-service.sql
+  jpa:
+    deferDatasourceInitialization: true
+    hibernate:
+      ddlAuto: create-drop
+  rabbitmq:
+    username: guest
+    password: guest
+    host: localhost
+    port: 5672
+
+queue:
+  movie:
+    name: MovieQueue
+
+message: A new movie was added to the list
+
+server:
+  port: 8081
+
+eureka:
+  client:
+    fetchRegistry: false
+    registerWithEureka: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    preferIpAddress: true
+
+logging:
+  level:
+    org.springframework.security: DEBUG
